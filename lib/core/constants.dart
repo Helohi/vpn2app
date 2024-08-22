@@ -33,4 +33,4 @@ const linkToOldOpenVpn =
     'https://drive.google.com/file/d/13di9Sn_dEZC0nVuBYR3wrf6lGAudPXNY/view?usp=sharing';
 const localVpnStorageDirectory = "/storage/emulated/0/Download/Vpn2App";
 
-const currentApplicationVersion = 2.2;
+const currentApplicationVersion = 2.3;
