@@ -18,7 +18,7 @@ Future<void> init() async {
   sl.allowReassignment = true;
 
   // Bloc
-  sl.registerFactory(() => MainBloc(sl(), sl(), sl(), sl(), sl()));
+  sl.registerFactory(() => MainBloc(sl(), sl(), sl(), sl(), sl(), sl()));
   sl.registerLazySingleton(
     () => NewVersionCheckCubit(getLatestAppVersion: sl()),
   );
@@ -30,6 +30,7 @@ Future<void> init() async {
   sl.registerFactory(() => usecases.GetLastVpnList(repository: sl()));
   sl.registerFactory(() => usecases.GetNextVpnList(repository: sl()));
   sl.registerFactory(() => usecases.GetLatestAppVersion(repository: sl()));
+  sl.registerFactory(() => usecases.DeleteDownloadFolder(repository: sl()));
 
   // Repositories
   sl.registerFactory<DataSourceRepository Function()>(

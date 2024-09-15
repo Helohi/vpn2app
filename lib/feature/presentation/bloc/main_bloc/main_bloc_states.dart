@@ -122,3 +122,19 @@ class CheckPromocodeErrorState extends CheckPromocodeState with ErrorState {
   @override
   String get messageToShow => localMessageToShow;
 }
+
+abstract class DeleteDownloadFolderState extends MainBlocState {}
+
+class DeletingDownloadFolderState extends DeleteDownloadFolderState {}
+
+class DeleteDownloadFolderDeletedState extends DeleteDownloadFolderState {}
+
+class DeleteDownloadFolderErrorState extends DeleteDownloadFolderState
+    with ErrorState {
+  final String localMessageToShow;
+
+  DeleteDownloadFolderErrorState({required this.localMessageToShow});
+
+  @override
+  String get messageToShow => localMessageToShow;
+}

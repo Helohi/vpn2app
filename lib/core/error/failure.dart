@@ -18,3 +18,7 @@ class DownloadVpnKeyFailure extends Failure {}
 class LoadAdvertisementFailure extends Failure {}
 
 class GetLatestAppVersionFailure extends Failure {}
+
+class DeleteDownloadFolderFailure extends Failure {}
+
+class DownloadFolderNotExist extends Failure {}

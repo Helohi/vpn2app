@@ -4,8 +4,8 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:vpn2app/core/error/failure.dart';
+import 'package:vpn2app/core/plugins/storage_permissioner.dart';
 import 'package:vpn2app/core/plugins/texts.dart';
 import 'package:vpn2app/feature/domain/entities/advertisement_entity.dart';
 import 'package:vpn2app/feature/domain/entities/download_file_entity.dart';
@@ -24,6 +24,7 @@ class MainBloc extends Bloc<MainBlocEvent, MainBlocState> {
   final usecases.GetLastVpnList getLastVpnList;
   final usecases.GetNextVpnList getNextVpnList;
   final usecases.LoadAdvertisements loadAdvertisement;
+  final usecases.DeleteDownloadFolder deleteDownloadFolder;
 
   MainBloc(
     this.checkPromocode,
@@ -31,6 +32,7 @@ class MainBloc extends Bloc<MainBlocEvent, MainBlocState> {
     this.getLastVpnList,
     this.getNextVpnList,
     this.loadAdvertisement,
+    this.deleteDownloadFolder,
   ) : super(InitialState()) {
     on<EmptyEvent>((event, emit) => null);
     on<GetLastVpnList>((event, emit) => _getLastVpnList(event, emit));
@@ -39,6 +41,8 @@ class MainBloc extends Bloc<MainBlocEvent, MainBlocState> {
     on<LoadAdvertisement>((event, emit) => _loadAdvertisement(event, emit));
     on<CheckPromocode>((event, emit) => _checkPromocode(event, emit));
     on<CheckSubscription>((event, emit) => _checkSubscription(event, emit));
+    on<DeleteDownloadFolder>(
+        (event, emit) => _deleteDownloadFolder(event, emit));
   }
 
   _getLastVpnList(GetLastVpnList event, Emitter<MainBlocState> emit) async {
@@ -86,16 +90,14 @@ class MainBloc extends Bloc<MainBlocEvent, MainBlocState> {
   }
 
   _downloadVpnKey(DownloadVpnKey event, Emitter<MainBlocState> emit) async {
-    if (!(await Permission.manageExternalStorage.isGranted) &&
-        !(await Permission.storage.isGranted)) {
+    if (!(await StoragePermissioner.arePermissionsGranted)) {
       emit(
         ShowSnackBarState(
           content: Text(Texts().textAllowExternalStorage()),
           hideCurrentSnackBar: true,
         ),
       );
-      await Permission.manageExternalStorage.request();
-      await Permission.storage.request();
+      StoragePermissioner.requestPermissions();
       return;
     }
 
@@ -168,24 +170,57 @@ class MainBloc extends Bloc<MainBlocEvent, MainBlocState> {
     log(event.runtimeType.toString());
     super.add(event);
   }
+
+  _deleteDownloadFolder(
+    DeleteDownloadFolder event,
+    Emitter<MainBlocState> emit,
+  ) async {
+    if (!(await StoragePermissioner.arePermissionsGranted)) {
+      emit(
+        ShowSnackBarState(
+          content: Text(Texts().textAllowExternalStorage()),
+          hideCurrentSnackBar: true,
+        ),
+      );
+      StoragePermissioner.requestPermissions();
+      return;
+    }
+
+    emit(DeletingDownloadFolderState());
+
+    final voidOrFailure = await deleteDownloadFolder();
+
+    voidOrFailure.fold(
+      (Failure failure) => emit(
+        DeleteDownloadFolderErrorState(
+          localMessageToShow: _mapFailureToMessage(failure),
+        ),
+      ),
+      (void _) => emit(DeleteDownloadFolderDeletedState()),
+    );
+  }
 }
 
 String _mapFailureToMessage(Failure failure) {
   switch (failure.runtimeType) {
-    case FetchingFirstDataFailure:
+    case const (FetchingFirstDataFailure):
       return "Could not fetch first data";
-    case FetchingNextDatasFailure:
+    case const (FetchingNextDatasFailure):
       return "Next data fetch went wrong";
-    case NoMoreKeysToLoadFailure:
+    case const (NoMoreKeysToLoadFailure):
       return "No more keys to load left";
-    case PromocodeCheckFailure:
+    case const (PromocodeCheckFailure):
       return "Could not check your promocode";
-    case DownloadVpnKeyFailure:
+    case const (DownloadVpnKeyFailure):
       return "Downloading failed";
-    case LoadAdvertisementFailure:
+    case const (LoadAdvertisementFailure):
       return "Could not load Advertisement";
-    case GetLatestAppVersionFailure:
+    case const (GetLatestAppVersionFailure):
       return "Could not check latest version";
+    case const (DeleteDownloadFolderFailure):
+      return "Could not delete download folder";
+    case const (DownloadFolderNotExist):
+      return "Download folder does not exist";
     default:
       log("Uncought failure: ${failure.runtimeType}");
       return "Unexpected Exception";

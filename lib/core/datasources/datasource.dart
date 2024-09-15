@@ -19,6 +19,10 @@ abstract class DataSource {
   Future<AdvertisementEntity> loadAdvertisement();
 
   Future<double> getLatestAppVersion();
+
+  Future<void> deleteDownloadFolder() async {
+    await Directory(localVpnStorageDirectory).delete(recursive: true);
+  }
 }
 
 enum DataSourcesEnum { google, yandexAuto, yandexManual }

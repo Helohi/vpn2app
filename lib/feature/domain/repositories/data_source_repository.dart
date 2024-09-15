@@ -19,4 +19,6 @@ abstract class DataSourceRepository {
   Future<Either<Failure, AdvertisementEntity>> loadAdvertisement();
 
   Future<Either<Failure, double>> getLatestAppVersion();
+
+  Future<Either<Failure, void>> deleteDownloadFolder();
 }

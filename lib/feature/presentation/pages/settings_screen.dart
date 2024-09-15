@@ -133,10 +133,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   ),
                   ButtonSegment(
                     value: DataSourcesEnum.yandexAuto,
+                    enabled: false,
                     label: Text("Yandex Auto"),
                   ),
                   ButtonSegment(
                     value: DataSourcesEnum.yandexManual,
+                    enabled: false,
                     label: Text('Yandex Manual'),
                   )
                 ],

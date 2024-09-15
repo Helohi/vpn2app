@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dartz/dartz.dart';
 import 'package:vpn2app/core/datasources/datasource.dart';
 import 'package:vpn2app/core/error/error.dart';
@@ -97,6 +99,21 @@ class DataSourceRepositoryImpl implements DataSourceRepository {
         errorHappened: e.toString(),
       ).sendToAnalitics();
       return Left(GetLatestAppVersionFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> deleteDownloadFolder() async {
+    try {
+      return Right(await dataSource.deleteDownloadFolder());
+    } on PathNotFoundException catch (_) {
+      return Left(DownloadFolderNotExist());
+    } catch (e) {
+      Analytics.useDefaultValues(
+        await Analytics.getCountryAndCity(),
+        errorHappened: e.toString(),
+      ).sendToAnalitics();
+      return Left(DeleteDownloadFolderFailure());
     }
   }
 }

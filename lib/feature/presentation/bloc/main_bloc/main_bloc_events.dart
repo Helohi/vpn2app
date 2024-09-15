@@ -31,3 +31,5 @@ class CheckSubscription extends MainBlocEvent {
 
   CheckSubscription(this.userId);
 }
+
+class DeleteDownloadFolder extends MainBlocEvent {}

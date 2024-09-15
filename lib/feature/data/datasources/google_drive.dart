@@ -12,7 +12,7 @@ import 'package:vpn2app/feature/domain/entities/vpn_key_entity.dart';
 import 'package:vpn2app/feature/domain/entities/vpn_list_entity.dart';
 import 'package:vpn2app/feature/domain/entities/vpn_manager_enity.dart';
 
-class GoogleDrive implements DataSource {
+class GoogleDrive extends DataSource {
   final http.Client client;
   VpnListEntity? lastVpnList;
   double? _latestAppVersion;

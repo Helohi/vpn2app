@@ -12,7 +12,7 @@ import 'package:vpn2app/feature/domain/entities/download_file_entity.dart';
 import 'package:vpn2app/feature/domain/entities/vpn_key_entity.dart';
 import 'package:vpn2app/feature/domain/entities/vpn_list_entity.dart';
 
-class YandexDisk implements DataSource {
+class YandexDisk extends DataSource {
   static const baseLink =
       "https://cloud-api.yandex.net/v1/disk/public/resources/download?public_key=https://disk.yandex.ru/d/HFmRw3zdqDYnBA&path=";
   static const serverSecretDBFile = "db.json";
