@@ -9,6 +9,7 @@ class VpnKeyModel extends VpnKeyEntity {
     required super.likes,
     required super.dislikes,
     required super.date,
+    required super.vpnType,
   });
 
   factory VpnKeyModel.fromJson(Map<String, dynamic> json) {
@@ -20,6 +21,9 @@ class VpnKeyModel extends VpnKeyEntity {
       likes: json['likes'],
       dislikes: json['dislikes'],
       date: json['date'],
+      vpnType: json.containsKey("vpn_type")
+          ? TypeOfVpnKey.values.byName(json['vpn_type'])
+          : null,
     );
   }
 

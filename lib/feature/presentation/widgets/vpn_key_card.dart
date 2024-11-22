@@ -98,7 +98,13 @@ class VpnKeyCard extends StatelessWidget {
 }
 
 AssetImage mapNameToAsset(String name) {
-  if (name.substring(name.lastIndexOf(".") + 1).startsWith("dark")) {
+  if (name.startsWith('ShadowSocks')) {
+    return const AssetImage("assets/images/shadowsocks_image.png");
+  } else if (name.startsWith("VMESS")) {
+    return const AssetImage("assets/images/vmess_image.png");
+  } else if (name.startsWith("TelegramProxy")) {
+    return const AssetImage("assets/images/telegram_proxy_image.png");
+  } else if (name.substring(name.lastIndexOf(".") + 1).startsWith("dark")) {
     return const AssetImage("assets/images/dark_image.png");
   } else if (name.substring(name.lastIndexOf(".") + 1).startsWith("hc")) {
     return const AssetImage('assets/images/hc_image.png');

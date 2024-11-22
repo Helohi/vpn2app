@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:vpn2app/core/plugins/texts.dart';
+import 'package:vpn2app/feature/domain/entities/vpn_key_entity.dart';
 import 'package:vpn2app/feature/presentation/bloc/main_bloc/main_bloc.dart';
 import 'package:vpn2app/feature/presentation/widgets/widgets.dart';
 
 class VpnKeysListBlocBuilder extends StatelessWidget {
-  const VpnKeysListBlocBuilder({super.key});
+  const VpnKeysListBlocBuilder({super.key, required this.typeOfVpnKey});
+
+  final TypeOfVpnKey typeOfVpnKey;
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +22,7 @@ class VpnKeysListBlocBuilder extends StatelessWidget {
               current is! NextVpnListErrorState),
       builder: (context, state) {
         switch (state.runtimeType) {
-          case InitialState:
+          case const (InitialState):
             return Center(
               child: Text.rich(
                 TextSpan(
@@ -30,15 +33,21 @@ class VpnKeysListBlocBuilder extends StatelessWidget {
                 ),
               ),
             );
-          case LastVpnListLoadingState:
+          case const (LastVpnListLoadingState):
             return const Center(child: CircularProgressIndicator());
-          case NextVpnListLoadedState:
+          case const (NextVpnListLoadedState):
             state as NextVpnListLoadedState;
-            return ListOfVpnKeyCards(vpnList: state.vpnList);
-          case LastVpnListLoadedState:
+            return ListOfVpnKeyCards(
+              vpnList: state.vpnList,
+              typeOfVpnKey: typeOfVpnKey,
+            );
+          case const (LastVpnListLoadedState):
             state as LastVpnListLoadedState;
-            return ListOfVpnKeyCards(vpnList: state.vpnList);
-          case LastVpnListErrorState:
+            return ListOfVpnKeyCards(
+              vpnList: state.vpnList,
+              typeOfVpnKey: typeOfVpnKey,
+            );
+          case const (LastVpnListErrorState):
             return ListView(
               children: [
                 Center(

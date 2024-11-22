@@ -6,6 +6,7 @@ class VpnKeyEntity {
   final int likes;
   final int dislikes;
   final String date;
+  final TypeOfVpnKey? vpnType;
 
   VpnKeyEntity({
     required this.id,
@@ -15,6 +16,7 @@ class VpnKeyEntity {
     required this.likes,
     required this.dislikes,
     required this.date,
+    this.vpnType,
   });
 
   @override
@@ -22,3 +24,6 @@ class VpnKeyEntity {
     return "$id: $date; $name - $channel '$description' ";
   }
 }
+
+// ignore: constant_identifier_names
+enum TypeOfVpnKey { TURKMEN_VPN, RUSSIAN_VPN }
