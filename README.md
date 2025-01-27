@@ -1,16 +1,4 @@
-# vpn2app
-
-A new Flutter project.
-
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+# Vpn2App
+# About
+This app was created and is maintained with one developer. Was developed in Flutter. 
+This app is a showcase on how to connect the app to Google Drive, that gives 15 GB for a new user instead of 5 GB like in Firebase Database.
