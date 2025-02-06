@@ -1,4 +1,5 @@
 # Vpn2App
+### [RELEASES](https://github.com/Helohi/vpn2app/releases)
 
 ## About
 This app was created and is maintained by one developer.
