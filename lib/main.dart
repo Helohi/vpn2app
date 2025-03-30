@@ -24,19 +24,7 @@ void main() async {
   ).sendToAnalitics();
 
   runApp(
-    MultiBlocProvider(
-      providers: [
-        BlocProvider<MainBloc>(
-          create: (context) => di.sl()..add(GetLastVpnList()),
-        ),
-        BlocProvider<NewVersionCheckCubit>(
-          create: (context) => di.sl(),
-        )
-      ],
-      child: const ShowSnackBarWidget(
-        child: MyApp(),
-      ),
-    ),
+    const ShowSnackBarWidget(child: MyApp()),
   );
 }
 
@@ -67,11 +55,21 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return ValueListenableBuilder<ThemeMode>(
       valueListenable: GetIt.I<ValueNotifier<ThemeMode>>(),
-      builder: (context, mode, child) => MaterialApp(
-        themeMode: mode,
-        theme: Themes.light(),
-        darkTheme: Themes.dark(),
-        onGenerateRoute: Routes().call,
+      builder: (context, mode, child) => MultiBlocProvider(
+        providers: [
+          BlocProvider<MainBloc>(
+            create: (context) => di.sl()..add(GetLastVpnList()),
+          ),
+          BlocProvider<NewVersionCheckCubit>(
+            create: (context) => di.sl(),
+          )
+        ],
+        child: MaterialApp(
+          themeMode: mode,
+          theme: Themes.light(),
+          darkTheme: Themes.dark(),
+          onGenerateRoute: Routes().call,
+        ),
       ),
     );
   }

@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:equatable/equatable.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
@@ -90,7 +91,7 @@ class MainBloc extends Bloc<MainBlocEvent, MainBlocState> {
   }
 
   _downloadVpnKey(DownloadVpnKey event, Emitter<MainBlocState> emit) async {
-    if (!(await StoragePermissioner.arePermissionsGranted)) {
+    if (!kIsWeb && !(await StoragePermissioner.arePermissionsGranted)) {
       emit(
         ShowSnackBarState(
           content: Text(Texts().textAllowExternalStorage()),
@@ -113,7 +114,9 @@ class MainBloc extends Bloc<MainBlocEvent, MainBlocState> {
             localMessageToShow: _mapFailureToMessage(failure)),
       ),
       (DownloadFileEntity downloadFile) => emit(
-        DownloadVpnKeyLoadedState(downloadFile: downloadFile),
+        DownloadVpnKeyLoadedState(
+          downloadFile: downloadFile,
+        ),
       ),
     );
   }

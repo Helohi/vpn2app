@@ -94,7 +94,7 @@ class _AdvertisementPageState extends State<AdvertisementPage>
                           child: Image.network(
                             state.advertisement
                                 .images[indexOfImageForAdvertisement!],
-                            fit: BoxFit.fill,
+                            fit: BoxFit.contain,
                             width: MediaQuery.of(context).size.width,
                           ),
                         );

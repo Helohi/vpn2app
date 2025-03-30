@@ -359,6 +359,17 @@ class Texts {
     }
   }
 
+  String textFileDownloadingWillStartSoonWeb() {
+    switch (currentLanguage) {
+      case Language.english:
+        return "File will start downloading soon";
+      case Language.russian:
+        return "Файл скоро начнет скачиваться";
+      case Language.turkmen:
+        return "Faýl ýakyn wagtda göçürip alyp başlar";
+    }
+  }
+
   String textAllowExternalStorage() {
     switch (currentLanguage) {
       case Language.english:

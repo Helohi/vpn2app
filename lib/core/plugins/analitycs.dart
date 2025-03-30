@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:developer';
-import 'dart:isolate';
 
+import 'package:flutter/foundation.dart';
 import 'package:get_it/get_it.dart';
 import 'package:http/http.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -171,11 +171,14 @@ class Analytics {
   }
 
   void sendToAnalitics() {
-    Isolate.run(
-      () {
+    if (kDebugMode) return;
+
+    compute(
+      (_) {
         log("Sending data to $url");
         return get(Uri.parse(url));
       },
+      null,
     );
   }
 }

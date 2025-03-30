@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:math';
 
+import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:vpn2app/core/datasources/datasource.dart';
 import 'package:vpn2app/core/error/error.dart';
@@ -19,9 +20,11 @@ class GoogleDrive extends DataSource {
 
   GoogleDrive({required this.client});
 
+  String get useProxyServer => DataSource.useProxyServer;
+
   Future<VpnManagerEntity> getVpnManager() async {
     final vpnManagerUri = Uri.parse(
-      'https://drive.usercontent.google.com/download?id=1KLONGdoGDxtgsBy5Hb7xMfe3OIfJcUF5&export=download',
+      '${useProxyServer}https://drive.usercontent.google.com/download?id=1KLONGdoGDxtgsBy5Hb7xMfe3OIfJcUF5&export=download',
     );
     final vpnManagerAns = await client.get(vpnManagerUri);
     return VpnManagerModel.fromJson(
@@ -46,6 +49,7 @@ class GoogleDrive extends DataSource {
       next: lastVpnListAns.next,
       data: lastVpnListAns.data.reversed.toList(),
     );
+
     return lastVpnList!;
   }
 
@@ -68,6 +72,10 @@ class GoogleDrive extends DataSource {
   }
 
   Future<VpnListEntity> getVpnList(Uri uri) async {
+    if (kIsWeb) {
+      uri = Uri.parse(useProxyServer + uri.toString());
+    }
+
     final vpnListAns = await client.get(uri);
     final vpnList = VpnListModel.fromJson(
       jsonDecode(utf8.decode(
@@ -81,7 +89,7 @@ class GoogleDrive extends DataSource {
   @override
   Future<bool> checkPromocode(String promocode) async {
     final uri = Uri.parse(
-      'https://drive.usercontent.google.com/download?id=1F0wbJV1tbcp1baFRg8TnEa_jERuyb0Jf&export=download',
+      '${useProxyServer}https://drive.usercontent.google.com/download?id=1F0wbJV1tbcp1baFRg8TnEa_jERuyb0Jf&export=download',
     );
     final ans = await client.get(uri);
     final data =
@@ -98,7 +106,7 @@ class GoogleDrive extends DataSource {
   @override
   Future<DownloadFileEntity> downloadVpnKey(VpnKeyEntity vpnKey) async {
     final url = Uri.parse(
-      'https://drive.usercontent.google.com/download?id=${vpnKey.id}&export=download',
+      '${useProxyServer}https://drive.usercontent.google.com/download?id=${vpnKey.id}&export=download',
     );
     return downlaodVpnKeyAndSaveIt(url, vpnKey.id, vpnKey.name, client);
   }
@@ -106,15 +114,17 @@ class GoogleDrive extends DataSource {
   @override
   Future<AdvertisementEntity> loadAdvertisement() async {
     final uri = Uri.parse(
-      "https://drive.usercontent.google.com/download?id=13zYbVHdcJvGWddQU50REKREk_uH4-QQ7&export=download",
+      "${useProxyServer}https://drive.usercontent.google.com/download?id=13zYbVHdcJvGWddQU50REKREk_uH4-QQ7&export=download",
     );
     final ans = await client.get(uri);
-    final advertisements =
+    Map<String, dynamic> advertisements =
         jsonDecode(utf8.decode(ans.body.codeUnits)) as Map<String, dynamic>;
     final advertisementsKeys = advertisements.keys.toList();
     final chosenAd = advertisementsKeys[Random().nextInt(
       advertisementsKeys.length,
     )];
+
+    if (kIsWeb) advertisements = addProxyLinkToAdvertisements(advertisements);
 
     return AdvertisementEntity(
       name: chosenAd,
@@ -130,5 +140,20 @@ class GoogleDrive extends DataSource {
       return double.parse((await getVpnManager()).currentVersion);
     }
     return _latestAppVersion!;
+  }
+
+  Map<String, void> addProxyLinkToAdvertisements(
+    Map<String, dynamic> advertisements,
+  ) {
+    advertisements.forEach(
+      (key, value) {
+        advertisements[key]['images'] =
+            advertisements[key]['images'].map((url) {
+          return useProxyServer + url;
+        }).toList();
+      },
+    );
+
+    return advertisements;
   }
 }

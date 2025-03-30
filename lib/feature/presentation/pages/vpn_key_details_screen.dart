@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:vpn2app/core/plugins/texts.dart';
@@ -39,7 +40,7 @@ class _VpnKeyDetailsScreenState extends State<VpnKeyDetailsScreen> {
         showFloatingActionButton: showFloatingActionButton,
       ),
       floatingActionButton: InteractiveFloatingActionButton(
-        shouldBeDrawn: isDownloading,
+        shouldBeDrawn: !kIsWeb && isDownloading,
         vpnKey: widget.vpnKey,
       ),
     );
@@ -99,8 +100,9 @@ class ScrollDetailsView extends StatelessWidget {
               decoration: BoxDecoration(
                 border: Border.all(color: Colors.black),
                 borderRadius: BorderRadius.circular(12.0),
-                color:
-                    Theme.of(context).scaffoldBackgroundColor.withOpacity(0.5),
+                color: Theme.of(context)
+                    .scaffoldBackgroundColor
+                    .withValues(alpha: 0.5),
               ),
               padding: const EdgeInsets.all(8.0),
               child: SelectableText(

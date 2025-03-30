@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:vpn2app/core/constants.dart';
@@ -36,7 +37,9 @@ class _VpnKeysListScreenState extends State<VpnKeysListScreen> {
         } else if (state is DownloadVpnKeyLoadedState) {
           ShowSnackBarWidget.of(context).showSnackBar(
             context,
-            Text(Texts().textFileInDownloads(state.downloadFile.path)),
+            kIsWeb
+                ? Text(Texts().textFileDownloadingWillStartSoonWeb())
+                : Text(Texts().textFileInDownloads(state.downloadFile.path)),
             hideCurrentSnackBar: true,
           );
         } else if (state is NoMoreKeysToLoadState) {
@@ -151,51 +154,53 @@ class _VpnKeysListScreenState extends State<VpnKeysListScreen> {
             ),
           ],
         ),
-        floatingActionButton: BlocBuilder<MainBloc, MainBlocState>(
-          bloc: BlocProvider.of<MainBloc>(context),
-          buildWhen: (previous, current) =>
-              current is DeleteDownloadFolderState,
-          builder: (context, state) {
-            switch (state.runtimeType) {
-              case const (DeletingDownloadFolderState):
-                return const FloatingActionButton(
-                  onPressed: null,
-                  child: CircularProgressIndicator(),
-                );
-              case const (DeleteDownloadFolderDeletedState):
-                return FloatingActionButton(
-                  onPressed: () {
-                    ShowSnackBarWidget.of(context).showSnackBar(
-                      context,
-                      const Text("Done"),
-                      hideCurrentSnackBar: true,
-                    );
-                  },
-                  child: const Icon(Icons.done),
-                );
-              case const (DeleteDownloadFolderErrorState):
-                state as DeleteDownloadFolderErrorState;
-                return FloatingActionButton(
-                  onPressed: () {
-                    ShowSnackBarWidget.of(context).showSnackBar(
-                      context,
-                      Text(state.messageToShow),
-                      hideCurrentSnackBar: true,
-                    );
-                  },
-                  child: const Icon(Icons.error_outline),
-                );
-              default:
-                return FloatingActionButton(
-                  onPressed: () {
-                    BlocProvider.of<MainBloc>(context)
-                        .add(DeleteDownloadFolder());
-                  },
-                  child: const Icon(Icons.delete),
-                );
-            }
-          },
-        ),
+        floatingActionButton: kIsWeb
+            ? null
+            : BlocBuilder<MainBloc, MainBlocState>(
+                bloc: BlocProvider.of<MainBloc>(context),
+                buildWhen: (previous, current) =>
+                    current is DeleteDownloadFolderState,
+                builder: (context, state) {
+                  switch (state.runtimeType) {
+                    case const (DeletingDownloadFolderState):
+                      return const FloatingActionButton(
+                        onPressed: null,
+                        child: CircularProgressIndicator(),
+                      );
+                    case const (DeleteDownloadFolderDeletedState):
+                      return FloatingActionButton(
+                        onPressed: () {
+                          ShowSnackBarWidget.of(context).showSnackBar(
+                            context,
+                            const Text("Done"),
+                            hideCurrentSnackBar: true,
+                          );
+                        },
+                        child: const Icon(Icons.done),
+                      );
+                    case const (DeleteDownloadFolderErrorState):
+                      state as DeleteDownloadFolderErrorState;
+                      return FloatingActionButton(
+                        onPressed: () {
+                          ShowSnackBarWidget.of(context).showSnackBar(
+                            context,
+                            Text(state.messageToShow),
+                            hideCurrentSnackBar: true,
+                          );
+                        },
+                        child: const Icon(Icons.error_outline),
+                      );
+                    default:
+                      return FloatingActionButton(
+                        onPressed: () {
+                          BlocProvider.of<MainBloc>(context)
+                              .add(DeleteDownloadFolder());
+                        },
+                        child: const Icon(Icons.delete),
+                      );
+                  }
+                },
+              ),
       ),
     );
   }

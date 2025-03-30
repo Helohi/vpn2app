@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:dartz/dartz.dart';
@@ -23,6 +24,7 @@ class DataSourceRepositoryImpl implements DataSourceRepository {
     try {
       return Right(await dataSource.getLastVpnList());
     } catch (e) {
+      log("[GET LAST VPN LIST] ERROR ${e.runtimeType}: $e");
       Analytics.useDefaultValues(
         await Analytics.getCountryAndCity(),
         errorHappened: e.toString(),
@@ -41,6 +43,7 @@ class DataSourceRepositoryImpl implements DataSourceRepository {
     } on NoMoreKeysToLoad catch (_) {
       return Left(NoMoreKeysToLoadFailure());
     } catch (e) {
+      log("[GET NEXT VPN LIST] ERROR ${e.runtimeType}: $e");
       Analytics.useDefaultValues(
         await Analytics.getCountryAndCity(),
         errorHappened: e.toString(),
@@ -54,6 +57,7 @@ class DataSourceRepositoryImpl implements DataSourceRepository {
     try {
       return Right(await dataSource.checkPromocode(promocode));
     } catch (e) {
+      log("[CHECK PROMOCODE] ERROR ${e.runtimeType}: $e");
       Analytics.useDefaultValues(
         await Analytics.getCountryAndCity(),
         errorHappened: e.toString(),
@@ -68,6 +72,7 @@ class DataSourceRepositoryImpl implements DataSourceRepository {
     try {
       return Right(await dataSource.downloadVpnKey(vpnKey));
     } catch (e) {
+      log("[DOWNLOAD VPN KEY] ERROR ${e.runtimeType}: $e");
       Analytics.useDefaultValues(
         await Analytics.getCountryAndCity(),
         errorHappened: e.toString(),
@@ -81,6 +86,7 @@ class DataSourceRepositoryImpl implements DataSourceRepository {
     try {
       return Right(await dataSource.loadAdvertisement());
     } catch (e) {
+      log("[LOAD ADVERTISEMENT] ERROR ${e.runtimeType}: $e");
       Analytics.useDefaultValues(
         await Analytics.getCountryAndCity(),
         errorHappened: e.toString(),
@@ -94,6 +100,7 @@ class DataSourceRepositoryImpl implements DataSourceRepository {
     try {
       return Right(await dataSource.getLatestAppVersion());
     } catch (e) {
+      log("[GET LATEST APP VERSION] ERROR ${e.runtimeType}: $e");
       Analytics.useDefaultValues(
         await Analytics.getCountryAndCity(),
         errorHappened: e.toString(),
@@ -109,6 +116,7 @@ class DataSourceRepositoryImpl implements DataSourceRepository {
     } on PathNotFoundException catch (_) {
       return Left(DownloadFolderNotExist());
     } catch (e) {
+      log("[DELETE DOWNLOAD FOLDER] ERROR ${e.runtimeType}: $e");
       Analytics.useDefaultValues(
         await Analytics.getCountryAndCity(),
         errorHappened: e.toString(),
