@@ -1,16 +1,12 @@
-# vpn2app
+# Vpn2App
+### [RELEASES](https://github.com/Helohi/vpn2app/releases)
 
-A new Flutter project.
+## About
+This app was created and is maintained by one developer.
 
-## Getting Started
+## Language used:
+Dart/Flutter
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## More info
+This app is a showcase on how to connect the app to Google Drive (read only)
+(Why use Google Drive? Google drive gives 15GB of storage instead of 5 in Firebase)
