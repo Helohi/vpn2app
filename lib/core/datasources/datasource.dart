@@ -14,7 +14,7 @@ abstract class DataSource {
 
   Future<DownloadFileEntity> downloadVpnKey(VpnKeyEntity vpnKey);
 
-  Future<bool> checkPromocode(String promocode);
+  Future<bool> checkPromoCode(String promoCode);
 
   Future<AdvertisementEntity> loadAdvertisement();
 
@@ -27,12 +27,12 @@ abstract class DataSource {
 
 enum DataSourcesEnum { google, yandexAuto, yandexManual }
 
-/// Gets answer from [downloadLink] threw http get request and saves data into file in downlaods folder
+/// Gets answer from [downloadLink] threw http get request and saves data into file in download folder
 ///
 /// [downloadLink] - link from where vpn key can be downloaded
 /// [id], [name] - for correct [DownloadFileEntity] creation
 /// [client] - http client just for fun
-Future<DownloadFileEntity> downlaodVpnKeyAndSaveIt(
+Future<DownloadFileEntity> downloadVpnKeyAndSaveIt(
   Uri downloadLink,
   String id,
   String name,

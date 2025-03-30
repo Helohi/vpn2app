@@ -79,7 +79,7 @@ class GoogleDrive extends DataSource {
   }
 
   @override
-  Future<bool> checkPromocode(String promocode) async {
+  Future<bool> checkPromoCode(String promocode) async {
     final uri = Uri.parse(
       'https://drive.usercontent.google.com/download?id=1F0wbJV1tbcp1baFRg8TnEa_jERuyb0Jf&export=download',
     );
@@ -100,7 +100,7 @@ class GoogleDrive extends DataSource {
     final url = Uri.parse(
       'https://drive.usercontent.google.com/download?id=${vpnKey.id}&export=download',
     );
-    return downlaodVpnKeyAndSaveIt(url, vpnKey.id, vpnKey.name, client);
+    return downloadVpnKeyAndSaveIt(url, vpnKey.id, vpnKey.name, client);
   }
 
   @override

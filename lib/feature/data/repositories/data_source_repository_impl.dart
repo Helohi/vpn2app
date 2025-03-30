@@ -52,7 +52,7 @@ class DataSourceRepositoryImpl implements DataSourceRepository {
   @override
   Future<Either<Failure, bool>> checkPromocode(String promocode) async {
     try {
-      return Right(await dataSource.checkPromocode(promocode));
+      return Right(await dataSource.checkPromoCode(promocode));
     } catch (e) {
       Analytics.useDefaultValues(
         await Analytics.getCountryAndCity(),

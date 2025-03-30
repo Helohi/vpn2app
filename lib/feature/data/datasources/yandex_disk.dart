@@ -121,7 +121,7 @@ class YandexDisk extends DataSource {
   }
 
   @override
-  Future<bool> checkPromocode(String promocode) async {
+  Future<bool> checkPromoCode(String promocode) async {
     final secretModel = await getSecretDB();
     if (secretModel.promocodes == null ||
         !secretModel.promocodes!.containsKey(promocode)) {
@@ -136,7 +136,7 @@ class YandexDisk extends DataSource {
         Uri.parse("$baseLink/$serverVpnsFolder/${vpnKey.id}");
     final url =
         Uri.parse(jsonDecode((await client.get(downloadLinkUrl)).body)['href']);
-    return downlaodVpnKeyAndSaveIt(url, vpnKey.id, vpnKey.name, client);
+    return downloadVpnKeyAndSaveIt(url, vpnKey.id, vpnKey.name, client);
   }
 
   @override
