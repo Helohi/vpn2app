@@ -1,3 +1,12 @@
 {
+<<<<<<< HEAD
     "cmake.ignoreCMakeListsMissing": true
+=======
+    "cSpell.words": [
+        "gifs",
+        "usecase",
+        "usecases",
+        "Vpns"
+    ]
+>>>>>>> 3dd1ed906b04a9df2f5ddf01d804006534dfe65f
 }

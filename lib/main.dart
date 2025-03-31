@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
-import 'package:vpn2app/core/plugins/analitycs.dart';
+import 'package:vpn2app/core/plugins/analytics.dart';
 import 'package:vpn2app/core/routes.dart';
 import 'package:vpn2app/core/theme.dart';
 import 'package:vpn2app/feature/presentation/bloc/main_bloc/main_bloc.dart';
@@ -12,16 +12,16 @@ import 'package:vpn2app/shared_preferences_init.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  /// Setting up Dependancy Inversion/GetIt
+  /// Setting up Dependency Inversion/GetIt
   await di.init();
 
-  /// Configuring SharedPrefences
+  /// Configuring SharedPreferences
   await sharedPreferencesInit();
 
   Analytics.useDefaultValues(
     await Analytics.getCountryAndCity(),
     openedApp: 1,
-  ).sendToAnalitics();
+  ).sendToAnalytics();
 
   runApp(
     const ShowSnackBarWidget(child: MyApp()),

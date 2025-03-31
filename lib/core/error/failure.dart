@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import 'package:equatable/equatable.dart';
 
 abstract class Failure extends Equatable {
@@ -22,3 +23,29 @@ class GetLatestAppVersionFailure extends Failure {}
 class DeleteDownloadFolderFailure extends Failure {}
 
 class DownloadFolderNotExist extends Failure {}
+=======
+import 'package:equatable/equatable.dart';
+
+abstract class Failure extends Equatable {
+  @override
+  List<Object?> get props => [];
+}
+
+class FetchingFirstDataFailure extends Failure {}
+
+class FetchingNextDatasFailure extends Failure {}
+
+class NoMoreKeysToLoadFailure extends Failure {}
+
+class PromoCodeCheckFailure extends Failure {}
+
+class DownloadVpnKeyFailure extends Failure {}
+
+class LoadAdvertisementFailure extends Failure {}
+
+class GetLatestAppVersionFailure extends Failure {}
+
+class DeleteDownloadFolderFailure extends Failure {}
+
+class DownloadFolderNotExist extends Failure {}
+>>>>>>> 3dd1ed906b04a9df2f5ddf01d804006534dfe65f
