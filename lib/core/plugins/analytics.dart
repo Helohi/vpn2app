@@ -170,7 +170,7 @@ class Analytics {
     }
   }
 
-  void sendToAnalitics() {
+  void sendToAnalytics() {
     Isolate.run(
       () {
         log("Sending data to $url");

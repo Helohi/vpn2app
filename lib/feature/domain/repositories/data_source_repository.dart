@@ -14,7 +14,7 @@ abstract class DataSourceRepository {
     VpnKeyEntity vpnKey,
   );
 
-  Future<Either<Failure, bool>> checkPromocode(String promocode);
+  Future<Either<Failure, bool>> checkPromoCode(String promoCode);
 
   Future<Either<Failure, AdvertisementEntity>> loadAdvertisement();
 

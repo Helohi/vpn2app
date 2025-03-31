@@ -10,7 +10,7 @@ import 'package:vpn2app/feature/domain/entities/advertisement_entity.dart';
 import 'package:vpn2app/feature/domain/entities/download_file_entity.dart';
 import 'package:vpn2app/feature/domain/entities/vpn_key_entity.dart';
 import 'package:vpn2app/feature/domain/entities/vpn_list_entity.dart';
-import 'package:vpn2app/feature/domain/entities/vpn_manager_enity.dart';
+import 'package:vpn2app/feature/domain/entities/vpn_manager_entity.dart';
 
 class GoogleDrive extends DataSource {
   final http.Client client;
@@ -79,16 +79,16 @@ class GoogleDrive extends DataSource {
   }
 
   @override
-  Future<bool> checkPromoCode(String promocode) async {
+  Future<bool> checkPromoCode(String promoCode) async {
     final uri = Uri.parse(
       'https://drive.usercontent.google.com/download?id=1F0wbJV1tbcp1baFRg8TnEa_jERuyb0Jf&export=download',
     );
     final ans = await client.get(uri);
     final data =
         jsonDecode(utf8.decode(ans.body.codeUnits)) as Map<String, dynamic>;
-    final promocodes = data['promocodes'] as Map<String, dynamic>;
+    final promoCodes = data['promocodes'] as Map<String, dynamic>;
 
-    if (promocodes.keys.contains(promocode)) {
+    if (promoCodes.keys.contains(promoCode)) {
       return true;
     } else {
       return false;
@@ -123,7 +123,7 @@ class GoogleDrive extends DataSource {
     );
   }
 
-  /// Recomended to use after [getLastVpnList]
+  /// Recommended to use after [getLastVpnList]
   @override
   Future<double> getLatestAppVersion() async {
     if (_latestAppVersion == null) {

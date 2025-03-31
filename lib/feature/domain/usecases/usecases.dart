@@ -1,4 +1,4 @@
-export 'check_promocode.dart';
+export 'check_promo_code.dart';
 export 'download_vpn_key.dart';
 export 'get_last_vpn_list.dart';
 export 'get_next_vpn_list.dart';

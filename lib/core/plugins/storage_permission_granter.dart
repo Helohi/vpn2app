@@ -1,6 +1,6 @@
 import 'package:permission_handler/permission_handler.dart';
 
-class StoragePermissioner {
+class StoragePermissionGranter {
   static Future<bool> get arePermissionsGranted async {
     return (await Permission.manageExternalStorage.isGranted) ||
         (await Permission.storage.isGranted);

@@ -339,11 +339,12 @@ packages:
   open_filex:
     dependency: "direct main"
     description:
-      name: open_filex
-      sha256: ba425ea49affd0a98a234aa9344b9ea5d4c4f7625a1377961eae9fe194c3d523
-      url: "https://pub.dev"
-    source: hosted
-    version: "4.5.0"
+      path: "."
+      ref: HEAD
+      resolved-ref: "4f2a23494a1726f215cf2be25226f679d6420c04"
+      url: "https://github.com/ishaquehassan/open_filex.git"
+    source: git
+    version: "4.6.0"
   path:
     dependency: transitive
     description:

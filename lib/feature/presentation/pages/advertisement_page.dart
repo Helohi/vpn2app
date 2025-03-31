@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import 'package:vpn2app/core/constants.dart';
-import 'package:vpn2app/core/plugins/analitycs.dart';
+import 'package:vpn2app/core/plugins/analytics.dart';
 import 'package:vpn2app/core/plugins/texts.dart';
 import 'package:vpn2app/feature/presentation/bloc/main_bloc/main_bloc.dart';
 import 'package:vpn2app/feature/presentation/widgets/widgets.dart';
@@ -69,12 +69,12 @@ class _AdvertisementPageState extends State<AdvertisementPage>
                       current is LoadAdvertisementState,
                   builder: (context, state) {
                     switch (state.runtimeType) {
-                      case LoadAdvertisementLoadingState:
+                      case const (LoadAdvertisementLoadingState):
                         return Center(
                           child:
                               Text(Texts().textYourAdvertisementCouldBeHere()),
                         );
-                      case LoadAdvertisementLoadedState:
+                      case const (LoadAdvertisementLoadedState):
                         state as LoadAdvertisementLoadedState;
                         if (indexOfImageForAdvertisement == null ||
                             indexOfImageForAdvertisement! >
@@ -87,7 +87,7 @@ class _AdvertisementPageState extends State<AdvertisementPage>
                             Analytics.useDefaultValues(
                               await Analytics.getCountryAndCity(),
                               clickedOnAdvertisement: 1,
-                            ).sendToAnalitics();
+                            ).sendToAnalytics();
 
                             launchUrlString(state.advertisement.url);
                           },
@@ -98,7 +98,7 @@ class _AdvertisementPageState extends State<AdvertisementPage>
                             width: MediaQuery.of(context).size.width,
                           ),
                         );
-                      case LoadAdvertisementErrorState:
+                      case const (LoadAdvertisementErrorState):
                         state as LoadAdvertisementErrorState;
                         return Center(
                           child: Text(state.messageToShow),
@@ -183,6 +183,6 @@ class _AdvertisementPageState extends State<AdvertisementPage>
     Analytics.useDefaultValues(
       await Analytics.getCountryAndCity(),
       watchAdvertisement: 1,
-    ).sendToAnalitics();
+    ).sendToAnalytics();
   }
 }

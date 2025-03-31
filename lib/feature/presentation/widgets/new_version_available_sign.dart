@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:vpn2app/core/constants.dart';
-import 'package:vpn2app/core/plugins/analitycs.dart';
+import 'package:vpn2app/core/plugins/analytics.dart';
 import 'package:vpn2app/core/plugins/texts.dart';
 
 class NewVersionAvailableSign extends StatelessWidget {
@@ -36,7 +36,7 @@ class NewVersionAvailableSign extends StatelessWidget {
             Analytics.useDefaultValues(
               await Analytics.getCountryAndCity(),
               clickedOnUpdateButton: 1,
-            ).sendToAnalitics();
+            ).sendToAnalytics();
 
             launchUrl(
               Uri.parse(applicationSite),

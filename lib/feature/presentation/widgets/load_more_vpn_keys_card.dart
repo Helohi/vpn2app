@@ -14,9 +14,9 @@ class LoadMoreVpnKeysCard extends StatelessWidget {
           bloc: BlocProvider.of<MainBloc>(context),
           builder: (context, state) {
             switch (state.runtimeType) {
-              case NextVpnListLoadingState:
+              case const (NextVpnListLoadingState):
                 return CircularProgressIndicator(
-                  color: Theme.of(context).primaryColor.withOpacity(0.9),
+                  color: Theme.of(context).primaryColor.withValues(alpha: 0.9),
                 );
               default:
                 return IconButton(
@@ -26,7 +26,7 @@ class LoadMoreVpnKeysCard extends StatelessWidget {
                       size: constraints.biggest.height / 2,
                     ),
                   ),
-                  color: Theme.of(context).primaryColor.withOpacity(0.9),
+                  color: Theme.of(context).primaryColor.withValues(alpha: 0.9),
                   onPressed: () {
                     BlocProvider.of<MainBloc>(context).add(GetNextVpnList());
                   },

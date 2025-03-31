@@ -1,4 +1,4 @@
-import 'package:vpn2app/feature/domain/entities/vpn_manager_enity.dart';
+import 'package:vpn2app/feature/domain/entities/vpn_manager_entity.dart';
 
 class VpnManagerModel extends VpnManagerEntity {
   VpnManagerModel({

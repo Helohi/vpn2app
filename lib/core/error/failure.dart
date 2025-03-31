@@ -11,7 +11,7 @@ class FetchingNextDatasFailure extends Failure {}
 
 class NoMoreKeysToLoadFailure extends Failure {}
 
-class PromocodeCheckFailure extends Failure {}
+class PromoCodeCheckFailure extends Failure {}
 
 class DownloadVpnKeyFailure extends Failure {}
 

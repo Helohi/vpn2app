@@ -3,7 +3,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:uuid/uuid.dart';
 import 'package:vpn2app/core/constants.dart';
 import 'package:vpn2app/core/datasources/datasource.dart';
-import 'package:vpn2app/core/plugins/analitycs.dart';
+import 'package:vpn2app/core/plugins/analytics.dart';
 import 'package:vpn2app/core/plugins/texts.dart';
 
 Future<void> sharedPreferencesInit() async {
@@ -11,8 +11,8 @@ Future<void> sharedPreferencesInit() async {
   if (!sharedPref.containsKey(coinsAmount)) {
     sharedPref.setInt(coinsAmount, startingCoins);
   }
-  if (!sharedPref.containsKey(usedPromocodesPref)) {
-    sharedPref.setString(usedPromocodesPref, '');
+  if (!sharedPref.containsKey(usedPromoCodesPref)) {
+    sharedPref.setString(usedPromoCodesPref, '');
   }
   if (!sharedPref.containsKey(savedLanguage)) {
     sharedPref.setString(savedLanguage, Language.english.name);
@@ -34,6 +34,6 @@ Future<void> sharedPreferencesInit() async {
     Analytics.useDefaultValues(
       await Analytics.getCountryAndCity(),
       firstAppOpening: 1,
-    ).sendToAnalitics();
+    ).sendToAnalytics();
   }
 }

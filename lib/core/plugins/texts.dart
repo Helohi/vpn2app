@@ -204,7 +204,7 @@ class Texts {
     }
   }
 
-  String textPromocode() {
+  String textPromoCode() {
     switch (currentLanguage) {
       case Language.english:
         return "Promocode";
@@ -238,7 +238,7 @@ class Texts {
     }
   }
 
-  String textNoSuchPromocode() {
+  String textNoSuchPromoCode() {
     switch (currentLanguage) {
       case Language.english:
         return "No Such Promocode";
@@ -557,7 +557,7 @@ class Texts {
     }
   }
 
-  String textThisisNotYourPromocode() {
+  String textThisIsNotYourPromoCode() {
     switch (currentLanguage) {
       case Language.english:
         return "This is not your promocode";

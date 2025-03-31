@@ -5,7 +5,7 @@ class SecretDBModel extends SecretDBEntity {
     required super.currentVersion,
     required super.lastVpnList,
     required super.firstVpnList,
-    required super.promocodes,
+    required super.promoCodes,
   });
 
   factory SecretDBModel.fromJson(Map<String, dynamic> json) {
@@ -13,7 +13,7 @@ class SecretDBModel extends SecretDBEntity {
       currentVersion: json['current_version'],
       lastVpnList: json['last_vpn_list'],
       firstVpnList: json['first_vpn_list'],
-      promocodes: json['promocodes'] != null
+      promoCodes: json['promocodes'] != null
           ? json['promocodes'] as Map<String, dynamic>
           : null,
     );

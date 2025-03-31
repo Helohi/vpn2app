@@ -5,13 +5,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:vpn2app/core/error/failure.dart';
-import 'package:vpn2app/core/plugins/storage_permissioner.dart';
+import 'package:vpn2app/core/plugins/storage_permission_granter.dart';
 import 'package:vpn2app/core/plugins/texts.dart';
 import 'package:vpn2app/feature/domain/entities/advertisement_entity.dart';
 import 'package:vpn2app/feature/domain/entities/download_file_entity.dart';
 import 'package:vpn2app/feature/domain/entities/vpn_key_entity.dart';
 import 'package:vpn2app/feature/domain/entities/vpn_list_entity.dart';
-import 'package:vpn2app/feature/domain/usecases/check_promocode.dart';
+import 'package:vpn2app/feature/domain/usecases/check_promo_code.dart';
 import 'package:vpn2app/feature/domain/usecases/usecases.dart' as usecases;
 import 'package:vpn2app/feature/presentation/bloc/new_version_check_cubit.dart';
 
@@ -19,7 +19,7 @@ part 'main_bloc_states.dart';
 part 'main_bloc_events.dart';
 
 class MainBloc extends Bloc<MainBlocEvent, MainBlocState> {
-  final usecases.CheckPromocode checkPromocode;
+  final usecases.CheckPromoCode checkPromoCode;
   final usecases.DownloadVpnKey downloadVpnKey;
   final usecases.GetLastVpnList getLastVpnList;
   final usecases.GetNextVpnList getNextVpnList;
@@ -27,7 +27,7 @@ class MainBloc extends Bloc<MainBlocEvent, MainBlocState> {
   final usecases.DeleteDownloadFolder deleteDownloadFolder;
 
   MainBloc(
-    this.checkPromocode,
+    this.checkPromoCode,
     this.downloadVpnKey,
     this.getLastVpnList,
     this.getNextVpnList,
@@ -39,7 +39,7 @@ class MainBloc extends Bloc<MainBlocEvent, MainBlocState> {
     on<GetNextVpnList>((event, emit) => _getNextVpnList(event, emit));
     on<DownloadVpnKey>((event, emit) => _downloadVpnKey(event, emit));
     on<LoadAdvertisement>((event, emit) => _loadAdvertisement(event, emit));
-    on<CheckPromocode>((event, emit) => _checkPromocode(event, emit));
+    on<CheckPromoCode>((event, emit) => _checkPromoCode(event, emit));
     on<CheckSubscription>((event, emit) => _checkSubscription(event, emit));
     on<DeleteDownloadFolder>(
         (event, emit) => _deleteDownloadFolder(event, emit));
@@ -90,14 +90,14 @@ class MainBloc extends Bloc<MainBlocEvent, MainBlocState> {
   }
 
   _downloadVpnKey(DownloadVpnKey event, Emitter<MainBlocState> emit) async {
-    if (!(await StoragePermissioner.arePermissionsGranted)) {
+    if (!(await StoragePermissionGranter.arePermissionsGranted)) {
       emit(
         ShowSnackBarState(
           content: Text(Texts().textAllowExternalStorage()),
           hideCurrentSnackBar: true,
         ),
       );
-      StoragePermissioner.requestPermissions();
+      StoragePermissionGranter.requestPermissions();
       return;
     }
 
@@ -138,20 +138,20 @@ class MainBloc extends Bloc<MainBlocEvent, MainBlocState> {
     );
   }
 
-  _checkPromocode(CheckPromocode event, Emitter<MainBlocState> emit) async {
-    emit(CheckPromocodeLoadingState());
+  _checkPromoCode(CheckPromoCode event, Emitter<MainBlocState> emit) async {
+    emit(CheckPromoCodeLoadingState());
 
     final boolOrFailure =
-        await checkPromocode(CheckPromocodeParams(promocode: event.promocode));
+        await checkPromoCode(CheckPromoCodeParams(promoCode: event.promoCode));
 
     boolOrFailure.fold(
       (Failure failure) => emit(
-        CheckPromocodeErrorState(
+        CheckPromoCodeErrorState(
             localMessageToShow: _mapFailureToMessage(failure)),
       ),
-      (bool doesExsist) => emit(CheckPromocodeLoadedState(
-        doesExsist: doesExsist,
-        promocode: event.promocode,
+      (bool doesExist) => emit(CheckPromoCodeLoadedState(
+        doesExist: doesExist,
+        promoCode: event.promoCode,
       )),
     );
   }
@@ -175,14 +175,14 @@ class MainBloc extends Bloc<MainBlocEvent, MainBlocState> {
     DeleteDownloadFolder event,
     Emitter<MainBlocState> emit,
   ) async {
-    if (!(await StoragePermissioner.arePermissionsGranted)) {
+    if (!(await StoragePermissionGranter.arePermissionsGranted)) {
       emit(
         ShowSnackBarState(
           content: Text(Texts().textAllowExternalStorage()),
           hideCurrentSnackBar: true,
         ),
       );
-      StoragePermissioner.requestPermissions();
+      StoragePermissionGranter.requestPermissions();
       return;
     }
 
@@ -209,8 +209,8 @@ String _mapFailureToMessage(Failure failure) {
       return "Next data fetch went wrong";
     case const (NoMoreKeysToLoadFailure):
       return "No more keys to load left";
-    case const (PromocodeCheckFailure):
-      return "Could not check your promocode";
+    case const (PromoCodeCheckFailure):
+      return "Could not check your promo code";
     case const (DownloadVpnKeyFailure):
       return "Downloading failed";
     case const (LoadAdvertisementFailure):
@@ -222,7 +222,7 @@ String _mapFailureToMessage(Failure failure) {
     case const (DownloadFolderNotExist):
       return "Download folder does not exist";
     default:
-      log("Uncought failure: ${failure.runtimeType}");
+      log("Uncaught failure: ${failure.runtimeType}");
       return "Unexpected Exception";
   }
 }

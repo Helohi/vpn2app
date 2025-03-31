@@ -5,7 +5,7 @@ import 'package:open_filex/open_filex.dart' as open_file_safe;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:vpn2app/core/plugins/analitycs.dart';
+import 'package:vpn2app/core/plugins/analytics.dart';
 import 'package:vpn2app/core/plugins/texts.dart';
 import 'package:vpn2app/feature/domain/entities/download_file_entity.dart';
 import 'package:vpn2app/feature/domain/entities/vpn_key_entity.dart';

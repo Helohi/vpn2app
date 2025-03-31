@@ -24,7 +24,7 @@ Future<void> init() async {
   );
 
   // Usecases
-  sl.registerFactory(() => usecases.CheckPromocode(repository: sl()));
+  sl.registerFactory(() => usecases.CheckPromoCode(repository: sl()));
   sl.registerFactory(() => usecases.LoadAdvertisements(repository: sl()));
   sl.registerFactory(() => usecases.DownloadVpnKey(repository: sl()));
   sl.registerFactory(() => usecases.GetLastVpnList(repository: sl()));

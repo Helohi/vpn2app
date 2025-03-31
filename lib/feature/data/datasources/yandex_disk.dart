@@ -121,10 +121,10 @@ class YandexDisk extends DataSource {
   }
 
   @override
-  Future<bool> checkPromoCode(String promocode) async {
+  Future<bool> checkPromoCode(String promoCode) async {
     final secretModel = await getSecretDB();
-    if (secretModel.promocodes == null ||
-        !secretModel.promocodes!.containsKey(promocode)) {
+    if (secretModel.promoCodes == null ||
+        !secretModel.promoCodes!.containsKey(promoCode)) {
       return false;
     }
     return true;
@@ -169,7 +169,7 @@ class YandexDisk extends DataSource {
     );
   }
 
-  /// Recomended to use after [getLastVpnList]
+  /// Recommended to use after [getLastVpnList]
   @override
   Future<double> getLatestAppVersion() async {
     if (_latestAppVersion == null) {

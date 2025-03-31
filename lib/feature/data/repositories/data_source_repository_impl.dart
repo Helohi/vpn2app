@@ -4,7 +4,7 @@ import 'package:dartz/dartz.dart';
 import 'package:vpn2app/core/datasources/datasource.dart';
 import 'package:vpn2app/core/error/error.dart';
 import 'package:vpn2app/core/error/failure.dart';
-import 'package:vpn2app/core/plugins/analitycs.dart';
+import 'package:vpn2app/core/plugins/analytics.dart';
 import 'package:vpn2app/feature/domain/entities/advertisement_entity.dart';
 import 'package:vpn2app/feature/domain/entities/download_file_entity.dart';
 import 'package:vpn2app/feature/domain/entities/vpn_key_entity.dart';
@@ -26,7 +26,7 @@ class DataSourceRepositoryImpl implements DataSourceRepository {
       Analytics.useDefaultValues(
         await Analytics.getCountryAndCity(),
         errorHappened: e.toString(),
-      ).sendToAnalitics();
+      ).sendToAnalytics();
       return Left(FetchingFirstDataFailure());
     }
   }
@@ -35,7 +35,7 @@ class DataSourceRepositoryImpl implements DataSourceRepository {
   Future<Either<Failure, VpnListEntity>> getNextVpnList() async {
     Analytics.useDefaultValues(await Analytics.getCountryAndCity(),
             loadingMoreVpns: 1)
-        .sendToAnalitics();
+        .sendToAnalytics();
     try {
       return Right(await dataSource.getNextVpnList());
     } on NoMoreKeysToLoad catch (_) {
@@ -44,21 +44,21 @@ class DataSourceRepositoryImpl implements DataSourceRepository {
       Analytics.useDefaultValues(
         await Analytics.getCountryAndCity(),
         errorHappened: e.toString(),
-      ).sendToAnalitics();
+      ).sendToAnalytics();
       return Left(FetchingNextDatasFailure());
     }
   }
 
   @override
-  Future<Either<Failure, bool>> checkPromocode(String promocode) async {
+  Future<Either<Failure, bool>> checkPromoCode(String promoCode) async {
     try {
-      return Right(await dataSource.checkPromoCode(promocode));
+      return Right(await dataSource.checkPromoCode(promoCode));
     } catch (e) {
       Analytics.useDefaultValues(
         await Analytics.getCountryAndCity(),
         errorHappened: e.toString(),
-      ).sendToAnalitics();
-      return Left(PromocodeCheckFailure());
+      ).sendToAnalytics();
+      return Left(PromoCodeCheckFailure());
     }
   }
 
@@ -71,7 +71,7 @@ class DataSourceRepositoryImpl implements DataSourceRepository {
       Analytics.useDefaultValues(
         await Analytics.getCountryAndCity(),
         errorHappened: e.toString(),
-      ).sendToAnalitics();
+      ).sendToAnalytics();
       return Left(DownloadVpnKeyFailure());
     }
   }
@@ -84,7 +84,7 @@ class DataSourceRepositoryImpl implements DataSourceRepository {
       Analytics.useDefaultValues(
         await Analytics.getCountryAndCity(),
         errorHappened: e.toString(),
-      ).sendToAnalitics();
+      ).sendToAnalytics();
       return Left(LoadAdvertisementFailure());
     }
   }
@@ -97,7 +97,7 @@ class DataSourceRepositoryImpl implements DataSourceRepository {
       Analytics.useDefaultValues(
         await Analytics.getCountryAndCity(),
         errorHappened: e.toString(),
-      ).sendToAnalitics();
+      ).sendToAnalytics();
       return Left(GetLatestAppVersionFailure());
     }
   }
@@ -112,7 +112,7 @@ class DataSourceRepositoryImpl implements DataSourceRepository {
       Analytics.useDefaultValues(
         await Analytics.getCountryAndCity(),
         errorHappened: e.toString(),
-      ).sendToAnalitics();
+      ).sendToAnalytics();
       return Left(DeleteDownloadFolderFailure());
     }
   }

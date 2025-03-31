@@ -20,11 +20,11 @@ class ProfileInfo extends StatefulWidget {
 
 class _ProfileInfoState extends State<ProfileInfo> {
   late DateTime subscriptionDate_;
-  late final TextEditingController promocodeTextController;
+  late final TextEditingController promoCodeTextController;
 
   @override
   void initState() {
-    promocodeTextController = TextEditingController();
+    promoCodeTextController = TextEditingController();
     updateSubscriptionDate();
 
     super.initState();
@@ -38,7 +38,7 @@ class _ProfileInfoState extends State<ProfileInfo> {
 
   @override
   void dispose() {
-    promocodeTextController.dispose();
+    promoCodeTextController.dispose();
     super.dispose();
   }
 
@@ -46,19 +46,19 @@ class _ProfileInfoState extends State<ProfileInfo> {
   Widget build(BuildContext context) {
     return BlocListener<bloc.MainBloc, bloc.MainBlocState>(
       listenWhen: (previous, current) =>
-          current is bloc.CheckPromocodeLoadedState ||
-          current is bloc.CheckPromocodeErrorState,
+          current is bloc.CheckPromoCodeLoadedState ||
+          current is bloc.CheckPromoCodeErrorState,
       listener: (context, state) {
-        if (state is bloc.CheckPromocodeLoadedState) {
-          if (state.doesExsist) {
-            String usedPromocodes =
-                "${GetIt.I.get<SharedPreferences>().getString(usedPromocodesPref)!}${state.promocode}";
+        if (state is bloc.CheckPromoCodeLoadedState) {
+          if (state.doesExist) {
+            String usedPromoCodes =
+                "${GetIt.I.get<SharedPreferences>().getString(usedPromoCodesPref)!}${state.promoCode}";
             GetIt.I
                 .get<SharedPreferences>()
-                .setString(usedPromocodesPref, usedPromocodes);
+                .setString(usedPromoCodesPref, usedPromoCodes);
 
-            final newDate = SubscriptionController.getEndDateFromPromocode(
-                  state.promocode,
+            final newDate = SubscriptionController.getEndDateFromPromoCode(
+                  state.promoCode,
                 ) ??
                 DateTime.fromMillisecondsSinceEpoch(0);
 
@@ -77,7 +77,7 @@ class _ProfileInfoState extends State<ProfileInfo> {
           } else {
             ShowSnackBarWidget.of(context).showSnackBar(
               context,
-              Text(Texts().textNoSuchPromocode()),
+              Text(Texts().textNoSuchPromoCode()),
               hideCurrentSnackBar: true,
             );
           }
@@ -124,17 +124,17 @@ class _ProfileInfoState extends State<ProfileInfo> {
               ),
               const SizedBox(height: 18.0),
               TextFormField(
-                controller: promocodeTextController,
-                onFieldSubmitted: onPromocodeSubmit,
+                controller: promoCodeTextController,
+                onFieldSubmitted: onPromoCodeSubmit,
                 onEditingComplete: () =>
-                    onPromocodeSubmit(promocodeTextController.value.text),
+                    onPromoCodeSubmit(promoCodeTextController.value.text),
                 decoration: InputDecoration(
                   border: const OutlineInputBorder(),
-                  label: Text(Texts().textPromocode()),
+                  label: Text(Texts().textPromoCode()),
                   suffixIcon: IconButton(
                     icon: const Icon(Icons.send),
                     onPressed: () =>
-                        onPromocodeSubmit(promocodeTextController.value.text),
+                        onPromoCodeSubmit(promoCodeTextController.value.text),
                   ),
                 ),
               ),
@@ -164,18 +164,18 @@ class _ProfileInfoState extends State<ProfileInfo> {
     });
   }
 
-  void onPromocodeSubmit(String promocode) {
-    final promocodeValidation =
-        SubscriptionController.isPromocodeValid(promocode);
+  void onPromoCodeSubmit(String promoCode) {
+    final promoCodeValidation =
+        SubscriptionController.isPromoCodeValid(promoCode);
 
-    if (promocodeValidation.$1) {
+    if (promoCodeValidation.$1) {
       BlocProvider.of<bloc.MainBloc>(context).add(
-        bloc.CheckPromocode(promocode),
+        bloc.CheckPromoCode(promoCode),
       );
     } else {
       ShowSnackBarWidget.of(context).showSnackBar(
         context,
-        Text(promocodeValidation.$2),
+        Text(promoCodeValidation.$2),
         hideCurrentSnackBar: true,
       );
     }
@@ -206,11 +206,13 @@ class UserIdWidget extends StatelessWidget {
                 onPressed: () async => Clipboard.setData(
                   ClipboardData(text: SubscriptionController.getUuid()),
                 ).whenComplete(
-                  () => ShowSnackBarWidget.of(context).showSnackBar(
-                    context,
-                    Text(Texts().textCopiedToClipboard()),
-                    hideCurrentSnackBar: true,
-                  ),
+                  () => context.mounted
+                      ? ShowSnackBarWidget.of(context).showSnackBar(
+                          context,
+                          Text(Texts().textCopiedToClipboard()),
+                          hideCurrentSnackBar: true,
+                        )
+                      : null,
                 ),
                 icon: Icon(
                   Icons.copy,

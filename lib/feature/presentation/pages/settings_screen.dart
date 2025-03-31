@@ -5,7 +5,7 @@ import 'package:share_plus/share_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vpn2app/core/constants.dart';
 import 'package:vpn2app/core/datasources/datasource.dart';
-import 'package:vpn2app/core/plugins/analitycs.dart';
+import 'package:vpn2app/core/plugins/analytics.dart';
 import 'package:vpn2app/core/plugins/texts.dart';
 import 'package:vpn2app/feature/presentation/bloc/main_bloc/main_bloc.dart';
 import 'package:vpn2app/feature/presentation/widgets/widgets.dart';
@@ -28,7 +28,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
     Analytics.useDefaultValues(
       await Analytics.getCountryAndCity(),
       wentToSettingsScreen: 1,
-    ).sendToAnalitics();
+    ).sendToAnalytics();
   }
 
   @override
@@ -75,7 +75,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   Analytics.useDefaultValues(
                     await Analytics.getCountryAndCity(),
                     switchedToAnotherLanguage: 1,
-                  ).sendToAnalitics();
+                  ).sendToAnalytics();
 
                   Texts().setNewCurrentLanguage(p0.first);
                   setState(() {});
@@ -205,7 +205,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   Analytics.useDefaultValues(
                     await Analytics.getCountryAndCity(),
                     clickedOnShareAppButton: 1,
-                  ).sendToAnalitics();
+                  ).sendToAnalytics();
 
                   Share.share(
                     Texts().textShareThisApplication(applicationSite),

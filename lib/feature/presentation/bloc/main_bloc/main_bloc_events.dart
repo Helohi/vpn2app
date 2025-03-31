@@ -20,10 +20,10 @@ class DownloadVpnKey extends MainBlocEvent {
 
 class LoadAdvertisement extends MainBlocEvent {}
 
-class CheckPromocode extends MainBlocEvent {
-  final String promocode;
+class CheckPromoCode extends MainBlocEvent {
+  final String promoCode;
 
-  CheckPromocode(this.promocode);
+  CheckPromoCode(this.promoCode);
 }
 
 class CheckSubscription extends MainBlocEvent {

@@ -48,8 +48,8 @@ class SubscriptionController {
     return sum;
   }
 
-  static DateTime? getEndDateFromPromocode(String promocode) {
-    final allMatches = RegExp(r"(?=.)\d+").allMatches(promocode).toList();
+  static DateTime? getEndDateFromPromoCode(String promoCode) {
+    final allMatches = RegExp(r"(?=.)\d+").allMatches(promoCode).toList();
     final lastMatch = allMatches.last[0];
     final additionDaysOrTimeStamp = int.tryParse(lastMatch ?? "");
     if (additionDaysOrTimeStamp == null) {
@@ -62,18 +62,18 @@ class SubscriptionController {
     }
   }
 
-  static (bool, String) isPromocodeValid(String promocode) {
+  static (bool, String) isPromoCodeValid(String promoCode) {
     if (GetIt.I
         .get<SharedPreferences>()
-        .getString(usedPromocodesPref)!
-        .contains(promocode)) {
+        .getString(usedPromoCodesPref)!
+        .contains(promoCode)) {
       return (false, Texts().textAlreadyWasUsed());
-    } else if (promocode.contains("#") &&
-        RegExp(r"\d+(?=#)").hasMatch(promocode)) {
+    } else if (promoCode.contains("#") &&
+        RegExp(r"\d+(?=#)").hasMatch(promoCode)) {
       final sumOfAllNumbersInUuid =
-          int.tryParse(RegExp(r"\d+(?=#)").firstMatch(promocode)![0] ?? "");
+          int.tryParse(RegExp(r"\d+(?=#)").firstMatch(promoCode)![0] ?? "");
       if (SubscriptionController.getUuidNumbersSum() != sumOfAllNumbersInUuid) {
-        return (false, Texts().textThisisNotYourPromocode());
+        return (false, Texts().textThisIsNotYourPromoCode());
       }
     }
     return (true, "OK");

@@ -99,8 +99,9 @@ class ScrollDetailsView extends StatelessWidget {
               decoration: BoxDecoration(
                 border: Border.all(color: Colors.black),
                 borderRadius: BorderRadius.circular(12.0),
-                color:
-                    Theme.of(context).scaffoldBackgroundColor.withOpacity(0.5),
+                color: Theme.of(context)
+                    .scaffoldBackgroundColor
+                    .withValues(alpha: 0.5),
               ),
               padding: const EdgeInsets.all(8.0),
               child: SelectableText(

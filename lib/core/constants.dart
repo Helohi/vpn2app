@@ -2,14 +2,14 @@
 const homePage = '/';
 const infoPage = '/info/';
 const coinsPage = '/coins/';
-const downloadsPage = '/downlaods/';
+const downloadsPage = '/downloads/';
 const advertisementPage = '/advertisement/';
 const settingsPage = '/settings/';
 const profilePage = '/profile_info/';
 
 // SharedPreferences names
 const coinsAmount = 'coins';
-const usedPromocodesPref = 'usedPromocodes';
+const usedPromoCodesPref = 'usedPromoCodes';
 const savedLanguage = 'language';
 const themeMode = 'themeMode';
 const firstOpening = 'firstOpening';
@@ -24,7 +24,7 @@ const durationOfAdvertisement = Duration(seconds: 10);
 // Coins
 const startingCoins = 0;
 const addedCoinsForAdvertisement = 4;
-const substractedCoinsForDownload = 2;
+const subtractedCoinsForDownload = 2;
 const maxAmountOfCoins = 10;
 
 // Links

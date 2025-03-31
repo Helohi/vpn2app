@@ -100,24 +100,24 @@ class LoadAdvertisementErrorState extends LoadAdvertisementState
   String get messageToShow => localMessageToShow;
 }
 
-abstract class CheckPromocodeState extends MainBlocState {}
+abstract class CheckPromoCodeState extends MainBlocState {}
 
-class CheckPromocodeLoadingState extends CheckPromocodeState {}
+class CheckPromoCodeLoadingState extends CheckPromoCodeState {}
 
-class CheckPromocodeLoadedState extends CheckPromocodeState {
-  final bool doesExsist;
-  final String promocode;
+class CheckPromoCodeLoadedState extends CheckPromoCodeState {
+  final bool doesExist;
+  final String promoCode;
 
-  CheckPromocodeLoadedState({
-    required this.doesExsist,
-    required this.promocode,
+  CheckPromoCodeLoadedState({
+    required this.doesExist,
+    required this.promoCode,
   });
 }
 
-class CheckPromocodeErrorState extends CheckPromocodeState with ErrorState {
+class CheckPromoCodeErrorState extends CheckPromoCodeState with ErrorState {
   final String localMessageToShow;
 
-  CheckPromocodeErrorState({required this.localMessageToShow});
+  CheckPromoCodeErrorState({required this.localMessageToShow});
 
   @override
   String get messageToShow => localMessageToShow;
