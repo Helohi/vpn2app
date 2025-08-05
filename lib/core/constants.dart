@@ -8,7 +8,6 @@ const settingsPage = '/settings/';
 const profilePage = '/profile_info/';
 
 // SharedPreferences names
-const coinsAmount = 'coins';
 const usedPromoCodesPref = 'usedPromoCodes';
 const savedLanguage = 'language';
 const themeMode = 'themeMode';

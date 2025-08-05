@@ -8,9 +8,7 @@ import 'package:vpn2app/core/plugins/texts.dart';
 
 Future<void> sharedPreferencesInit() async {
   var sharedPref = await SharedPreferences.getInstance();
-  if (!sharedPref.containsKey(coinsAmount)) {
-    sharedPref.setInt(coinsAmount, startingCoins);
-  }
+
   if (!sharedPref.containsKey(usedPromoCodesPref)) {
     sharedPref.setString(usedPromoCodesPref, '');
   }
